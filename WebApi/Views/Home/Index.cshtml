@@ -1,0 +1,103 @@
+﻿
+<h1 align="center">notas</h1>
+
+<form>
+
+    <input type="text" placeholder="titulo" class="form-control" id="titulo" required />
+    <br />
+    <input type="text" placeholder="descripcion" class="form-control" id="descripcion" required />
+    <br />
+    <input type="date" placeholder="fecha" class="form-control" id="fecha" required />
+    <br />
+    <select class="form-control" id="select">
+        <option value="alta"> alta </option>
+        <option value="baja"> baja </option>
+    </select>
+
+    <br />
+    <button class="btn btn-danger" id="guardar">Guardar</button>
+
+</form>
+
+<h1>notas</h1>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>titulo</th>
+            <th>descripcion</th>
+            <th>fecha</th>
+            <th>prioridad</th>
+            <th>opciones</th>
+        </tr>   
+    </thead>
+    <tfoot>
+        @foreach (var notas in Model)
+        {
+        <tr>
+            <td>@notas.titulo</td>
+            <td>@notas.descripcion</td>
+            <td>@notas.fecha</td>
+            <td>@notas.prioridad</td>
+            <td><button class="btn btn-danger" onclick="llenar(@notas.id)">editar</button></td>
+            <td><button class="btn btn-danger" id="eliminar">eliminar</button></td>
+        </tr>
+        }
+
+    </tfoot>
+
+</table>
+
+<ul></ul>
+
+
+<script>
+    $(document).ready(function () {
+        $("#guardar").click(function () {
+
+            var titulo = $("#titulo").val();
+            var descripcion = $("#descripcion").val();
+            var fecha = $("#fecha").val();
+            var select = $("#select").val();
+            //console.log(titulo, descripcion, fecha, select);
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/notas',
+                data: {
+                    titulo: titulo,
+                    descripcion: descripcion,
+                    fecha: fecha,
+                    prioridad: select
+                },
+                success: function (r) {
+                    console.log(r);
+                    alert("guardado");
+                },
+                error: function () {
+                    alert("error al enviar");
+                }
+
+
+
+            })
+
+
+        });
+
+    
+
+    });
+</script>
+
+<script>
+    function llenar(id) {
+
+        console.log('correcto' + id);
+         
+       
+
+    }
+</script>
